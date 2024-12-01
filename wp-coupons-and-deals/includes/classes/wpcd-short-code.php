@@ -12,37 +12,33 @@ if ( !defined( 'ABSPATH' ) ) {
  * @since 1.0
  * @author Imtiaz Rayhan
  */
-class WPCD_Short_Code
-{
+class WPCD_Short_Code {
     /**
      * Class constructor.
      * Adds the function to register the shortcode with WordPress.
      *
      * @since 1.0
      */
-    public static function init()
-    {
+    public static function init() {
         /**
          * Shortcode register function.
          *
          * @since 1.0
          */
-        add_shortcode( 'wpcd_coupon', array( __CLASS__, 'wpcd_coupon' ) );
-        add_shortcode( 'wpcd_code', array( __CLASS__, 'wpcd_coupon_code' ) );
-        
+        add_shortcode( 'wpcd_coupon', array(__CLASS__, 'wpcd_coupon') );
+        add_shortcode( 'wpcd_code', array(__CLASS__, 'wpcd_coupon_code') );
         if ( wcad_fs()->is_plan__premium_only( 'pro' ) or wcad_fs()->can_use_premium_code() ) {
-            add_shortcode( 'wpcd_coupons', array( __CLASS__, 'wpcd_coupons_archive_func__premium_only' ) );
-            add_shortcode( 'wpcd_coupons_loop', array( __CLASS__, 'wpcd_coupons_loop_func__premium_only' ) );
-            add_action( 'wp_ajax_wpcd_coupons_category_action', array( __CLASS__, 'wpcd_coupons_archive_func__premium_only' ) );
-            add_action( 'wp_ajax_nopriv_wpcd_coupons_category_action', array( __CLASS__, 'wpcd_coupons_archive_func__premium_only' ) );
-            add_action( 'wp_ajax_wpcd_coupons_cat_vend_action', array( __CLASS__, 'wpcd_coupons_loop_func__premium_only' ) );
-            add_action( 'wp_ajax_nopriv_wpcd_coupons_cat_vend_action', array( __CLASS__, 'wpcd_coupons_loop_func__premium_only' ) );
-            add_action( 'wp_ajax_wpcd_coupon_clicked_action', array( __CLASS__, 'wpcd_coupon_clicked_action_func__premium_only' ) );
-            add_action( 'wp_ajax_nopriv_wpcd_coupon_clicked_action', array( __CLASS__, 'wpcd_coupon_clicked_action_func__premium_only' ) );
+            add_shortcode( 'wpcd_coupons', array(__CLASS__, 'wpcd_coupons_archive_func__premium_only') );
+            add_shortcode( 'wpcd_coupons_loop', array(__CLASS__, 'wpcd_coupons_loop_func__premium_only') );
+            add_action( 'wp_ajax_wpcd_coupons_category_action', array(__CLASS__, 'wpcd_coupons_archive_func__premium_only') );
+            add_action( 'wp_ajax_nopriv_wpcd_coupons_category_action', array(__CLASS__, 'wpcd_coupons_archive_func__premium_only') );
+            add_action( 'wp_ajax_wpcd_coupons_cat_vend_action', array(__CLASS__, 'wpcd_coupons_loop_func__premium_only') );
+            add_action( 'wp_ajax_nopriv_wpcd_coupons_cat_vend_action', array(__CLASS__, 'wpcd_coupons_loop_func__premium_only') );
+            add_action( 'wp_ajax_wpcd_coupon_clicked_action', array(__CLASS__, 'wpcd_coupon_clicked_action_func__premium_only') );
+            add_action( 'wp_ajax_nopriv_wpcd_coupon_clicked_action', array(__CLASS__, 'wpcd_coupon_clicked_action_func__premium_only') );
         }
-    
     }
-    
+
     /**
      * Shortcode attributes and arguments to build the shortcode.
      *
@@ -52,10 +48,9 @@ class WPCD_Short_Code
      *
      * @since 1.0
      */
-    public static function wpcd_coupon( $atts )
-    {
-        global  $wpcd_atts ;
-        global  $wpcd_coupon ;
+    public static function wpcd_coupon( $atts ) {
+        global $wpcd_atts;
+        global $wpcd_coupon;
         /**
          * These are the shortcode attributes.
          *
@@ -82,7 +77,7 @@ class WPCD_Short_Code
          *
          * @since 1.0
          */
-        $wpcd_coupon = new WP_Query( $wpcd_arg );
+        $wpcd_coupon = new WP_Query($wpcd_arg);
         $output = '';
         //Hide expired coupon feature
         $today = date( 'd-m-Y' );
@@ -90,26 +85,21 @@ class WPCD_Short_Code
         $enable_stats = get_option( 'wpcd_enable-stats-count' );
         while ( $wpcd_coupon->have_posts() ) {
             $wpcd_coupon->the_post();
-            global  $coupon_id ;
+            global $coupon_id;
             $template = new WPCD_Template_Loader();
             $coupon_id = get_the_ID();
             $expire_date = get_post_meta( $coupon_id, 'coupon_details_expire-date', true );
             $coupon_template = get_post_meta( $coupon_id, 'coupon_details_coupon-template', true );
             $coupon_type = get_post_meta( $coupon_id, 'coupon_details_coupon-type', true );
-            
-            if ( !empty($enable_stats) && $enable_stats == 'on' ) {
+            if ( !empty( $enable_stats ) && $enable_stats == 'on' ) {
                 $view_count = get_post_meta( $coupon_id, 'coupon_view_count', true );
-                
-                if ( empty($view_count) || !is_numeric( $view_count ) ) {
+                if ( empty( $view_count ) || !is_numeric( $view_count ) ) {
                     $view_count = 1;
                 } else {
                     $view_count = intval( $view_count ) + 1;
                 }
-                
                 update_post_meta( $coupon_id, 'coupon_view_count', $view_count );
             }
-            
-            
             if ( $coupon_type === 'Image' ) {
                 ob_start();
                 $template->get_template_part( 'shortcode-image' );
@@ -120,17 +110,13 @@ class WPCD_Short_Code
                 wp_reset_postdata();
                 return $output;
             }
-            
             // Hide expired coupon feature (default is Not to hide).
-            
-            if ( !empty($hide_expired_coupon) || $hide_expired_coupon == "on" ) {
+            if ( !empty( $hide_expired_coupon ) || $hide_expired_coupon == "on" ) {
                 $expire_date = get_post_meta( $coupon_id, 'coupon_details_expire-date', true );
-                
-                if ( !empty($expire_date) ) {
+                if ( !empty( $expire_date ) ) {
                     if ( (string) (int) $expire_date != $expire_date ) {
                         $expire_date = strtotime( $expire_date );
                     }
-                    
                     if ( $coupon_template !== 'Template Four' ) {
                         if ( $expire_date < strtotime( $today ) ) {
                             continue;
@@ -142,14 +128,9 @@ class WPCD_Short_Code
                             continue;
                         }
                     }
-                
                 }
-            
             }
-            
-            
             if ( wcad_fs()->is_plan__premium_only( 'pro' ) or wcad_fs()->can_use_premium_code() ) {
-                
                 if ( $coupon_template == 'Template One' ) {
                     $argcss = 'shortcode_one';
                     ob_start();
@@ -201,27 +182,23 @@ class WPCD_Short_Code
                     $template->get_template_part( 'shortcode-default' );
                     $output = ob_get_clean();
                 }
-            
             } else {
                 $argcss = 'shortcode_default';
                 ob_start();
                 $template->get_template_part( 'shortcode-default' );
                 $output = ob_get_clean();
             }
-            
-            
             if ( WPCD_Amp::wpcd_amp_is() ) {
                 WPCD_Amp::instance()->setCss( 'shortcode_common' );
                 WPCD_Amp::instance()->setCss( $argcss );
                 $user_stylesheets = WPCD_Assets::wpcd_stylesheets( true, $coupon_id, $coupon_template );
                 WPCD_Amp::instance()->setCss( $user_stylesheets, false );
             }
-        
         }
         wp_reset_postdata();
         return $output;
     }
-    
+
     /**
      * Builds the only coupon code shortcode.
      *
@@ -231,10 +208,9 @@ class WPCD_Short_Code
      *
      * @since 1.0
      */
-    public static function wpcd_coupon_code( $atts )
-    {
-        global  $wpcd_code_atts ;
-        global  $wpcd_coupon_code ;
+    public static function wpcd_coupon_code( $atts ) {
+        global $wpcd_code_atts;
+        global $wpcd_coupon_code;
         /**
          * These are the shortcode attributes.
          *
@@ -261,7 +237,7 @@ class WPCD_Short_Code
          *
          * @since 1.4
          */
-        $wpcd_coupon_code = new WP_Query( $wpcd_code_arg );
+        $wpcd_coupon_code = new WP_Query($wpcd_code_arg);
         $template = new WPCD_Template_Loader();
         ob_start();
         $template->get_template_part( 'shortcode-code' );
