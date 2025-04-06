@@ -3,7 +3,7 @@
 /**
  * Plugin Name: WP Coupons and Deals
  * Plugin URI: https://wpcouponsdeals.com/
- * Version: 3.2.3
+ * Version: 3.2.4
  * Description: Best WordPress Coupon Plugin. Generate more affiliate sales with coupon codes and deals.
  * Author: WP Coupons and Deals
  * Author URI: https://wpcouponsdeals.com/
@@ -170,3 +170,7 @@ function wpcd_duplicate_coupon_action() {
 }
 
 add_action( 'admin_action_wpcd_duplicate_coupon', 'wpcd_duplicate_coupon_action' );
+// Initialize promoter.
+require_once dirname( __FILE__ ) . '/vendor/autoload.php';
+$default_promotions = \DotCamp\Promoter\Promoter::generate_default_promotions( __FILE__, 'WP Coupons and Deals', 'wp-coupons-and-deals/wp-coupons-deals.php' );
+\DotCamp\Promoter\Promoter::add_promotions( $default_promotions, __FILE__ );

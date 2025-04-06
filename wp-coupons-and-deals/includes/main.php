@@ -26,7 +26,7 @@ if ( !class_exists( 'WPCD_Plugin' ) ) {
          *
          * @since 1.0
          */
-        const PLUGIN_VERSION = '3.2.3';
+        const PLUGIN_VERSION = '3.2.2';
 
         const CUSTOM_POST_TYPE = 'wpcd_coupons';
 
@@ -138,6 +138,20 @@ if ( !class_exists( 'WPCD_Plugin' ) ) {
         }
 
         /**
+         * Load necessary files.
+         *
+         * @since 1.0
+         */
+        public static function load_block_files() {
+            require_once WPCD_Plugin::instance()->plugin_classes . 'wpcd-block-assets.php';
+            require_once WPCD_Plugin::instance()->plugin_classes . 'wpcd-block-category.php';
+            // Load the block css generator
+            require_once WPCD_Plugin::instance()->plugin_classes . 'wpcd-block-css-generator.php';
+            // Load the blocks
+            require_once WPCD_Plugin::instance()->plugin_includes . 'blocks/class-coupon-block.php';
+        }
+
+        /**
          * Activation function. Runs this when plugin is activated.
          *
          * @since 1.0
@@ -230,6 +244,7 @@ if ( !class_exists( 'WPCD_Plugin' ) ) {
             add_action( 'init', array(__CLASS__, 'loadClasses'), 10 );
             add_action( 'init', array(__CLASS__, 'custom_taxonomy_register') );
             add_action( 'init', array(__CLASS__, 'custom_post_type_register') );
+            add_action( 'init', array(__CLASS__, 'load_block_files') );
             add_action( 'widgets_init', array(__CLASS__, 'wpcd_widget_register'), 20 );
             add_filter( 'wp_enqueue_scripts', array(__CLASS__, 'load_jquery'), 1 );
             add_action( 'wp_enqueue_scripts', array(__CLASS__, 'load_jquery') );
