@@ -3,7 +3,7 @@
 /**
  * Plugin Name: WP Coupons and Deals
  * Plugin URI: https://wpcouponsdeals.com/
- * Version: 3.2.5
+ * Version: 3.2.6
  * Description: Best WordPress Coupon Plugin. Generate more affiliate sales with coupon codes and deals.
  * Author: WP Coupons and Deals
  * Author URI: https://wpcouponsdeals.com/
@@ -42,23 +42,24 @@ if ( !function_exists( 'wcad_fs' ) ) {
             // Include Freemius SDK.
             require_once dirname( __FILE__ ) . '/includes/sdk/freemius/start.php';
             $wcad_fs = fs_dynamic_init( array(
-                'id'             => '1200',
-                'slug'           => 'wp-coupons-and-deals',
-                'type'           => 'plugin',
-                'public_key'     => 'pk_76752add3b978f15fe1e4a18cf2bc',
-                'is_premium'     => false,
-                'has_addons'     => false,
-                'has_paid_plans' => true,
-                'trial'          => array(
+                'id'               => '1200',
+                'slug'             => 'wp-coupons-and-deals',
+                'type'             => 'plugin',
+                'public_key'       => 'pk_76752add3b978f15fe1e4a18cf2bc',
+                'is_premium'       => false,
+                'has_addons'       => false,
+                'has_paid_plans'   => true,
+                'trial'            => array(
                     'days'               => 14,
                     'is_require_payment' => true,
                 ),
-                'menu'           => array(
+                'menu'             => array(
                     'slug'       => 'edit.php?post_type=wpcd_coupons',
                     'first-path' => 'index.php?page=wpcd_welcome_menu_page',
                     'support'    => false,
                 ),
-                'is_live'        => true,
+                'is_live'          => true,
+                'is_org_compliant' => true,
             ) );
         }
         return $wcad_fs;
