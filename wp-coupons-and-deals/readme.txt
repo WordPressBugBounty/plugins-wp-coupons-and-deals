@@ -1,9 +1,9 @@
-===  WP Coupons and Deals - Coupon Plugin For Affiliate Marketers ===
+===  WP Coupons and Deals - WordPress Coupon Plugin ===
 Contributors: dotcamp, wpcdplugin, imtiazrayhan, istiakrayhan, mohmedelwany, ultimateblocks, wptb, wpleaders1, freemius
 Tags: coupon, coupons, deal, deals, affiliate
 Requires at least: 5.2
-Tested up to: 6.7
-Stable tag: 3.2.7
+Tested up to: 7.0
+Stable tag: 3.2.8
 Requires PHP: 7.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -159,6 +159,17 @@ You can [__submit a feature request__](https://wpcouponsdeals.com/submit-new-fea
 11. Adding the widget.
 
 == Changelog ==
+
+= 3.2.8 =
+
+* NEW: Coupon title tag option for block coupon titles.
+* NEW: Powered By panel with an option to show or hide the "Powered by" link in the block.
+* NEW: Coupon Code field in the block inspector controls.
+* NEW: Pro upsell for locked block features in the editor.
+* NEW: Hidden coupons now reveal inline after copy and stay visible for 30 minutes.
+* FIX: Hide Coupon behavior in the editor and frontend.
+* FIX: Deal button affiliate link href in all coupon templates.
+* Tested with WordPress 7.0.
 
 = 3.2.7 =
 

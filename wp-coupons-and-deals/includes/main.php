@@ -26,7 +26,7 @@ if ( !class_exists( 'WPCD_Plugin' ) ) {
          *
          * @since 1.0
          */
-        const PLUGIN_VERSION = '3.2.7';
+        const PLUGIN_VERSION = '3.2.8';
 
         const CUSTOM_POST_TYPE = 'wpcd_coupons';
 
